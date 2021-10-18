@@ -8,6 +8,11 @@ namespace Utilities
 {
     public static class Xml
     {
+        public static void main()
+        {
+            
+        }
+
         /// <summary>
         ///   Parse an object to Xml and write it to file system.
         /// </summary>
