@@ -4,8 +4,7 @@ using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-
-namespace Xml
+namespace Utilities
 {
     public static class Xml
     {
