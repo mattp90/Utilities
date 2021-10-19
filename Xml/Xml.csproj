@@ -1,15 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
 	  <PackageId>Utilities.Xml</PackageId>
-	  <Version>1.0.0</Version>
+	  <Version>1.0.1</Version>
 	  <Authors>Matteo Piazzi</Authors>
 	  <Company></Company>
 	  <PackageDescription>Static class to handle xml files</PackageDescription>
 	  <RepositoryUrl>https://github.com/mattp90/Utilities</RepositoryUrl>
   </PropertyGroup>
 
+	<PropertyGroup>
+		<PackageIcon>images\icon.png</PackageIcon>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="images\icon.png" Pack="true" PackagePath="images\icon.png" />
+	</ItemGroup>
+	
   <ItemGroup>
     <PackageReference Include="NuGet.CommandLine" Version="5.11.0">
       <PrivateAssets>all</PrivateAssets>
