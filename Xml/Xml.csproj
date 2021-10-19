@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
 	  <PackageId>Utilities.Xml</PackageId>
-	  <Version>1.0.3</Version>
+	  <Version>1.0.4</Version>
 	  <Authors>Matteo Piazzi</Authors>
 	  <Company></Company>
 	  <PackageDescription>Static class to handle xml files</PackageDescription>
