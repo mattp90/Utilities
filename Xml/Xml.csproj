@@ -10,14 +10,6 @@
 	  <RepositoryUrl>https://github.com/mattp90/Utilities</RepositoryUrl>
   </PropertyGroup>
 
-	<PropertyGroup>
-		<PackageIcon>images\icon.png</PackageIcon>
-		<iconUrl>https://raw.githubusercontent.com/mattp90/Utilities/master/Xml/images/icon.png</iconUrl>
-	</PropertyGroup>
-	<ItemGroup>
-		<None Include="images\icon.png" Pack="true" PackagePath="images\icon.png" />
-	</ItemGroup>
-	
   <ItemGroup>
     <PackageReference Include="NuGet.CommandLine" Version="5.11.0">
       <PrivateAssets>all</PrivateAssets>
