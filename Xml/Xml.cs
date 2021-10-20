@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -9,50 +10,36 @@ namespace Utilities
     public static class Xml
     {
         /// <summary>
-        ///   Parse an object to Xml and write it to file system.
+        /// Parse an object to Xml and write it to file system.
         /// </summary>
         /// <param name="obj">Object who will be write in Xml</param>
         /// <param name="filename">Path where will be write Xml file</param>
         public static void WriteToXml(object obj, string filename)
         {
-            try
+            using (StreamWriter writer = new StreamWriter(filename))
             {
-                using (var writer = new StreamWriter(filename))
-                {
-                    var serializer = new XmlSerializer(obj.GetType());
-                    serializer.Serialize(writer, obj);
-                    writer.Flush();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                XmlSerializer serializer = new XmlSerializer(obj.GetType());
+                serializer.Serialize(writer, obj);
+                writer.Flush();
             }
         }
 
         /// <summary>
-        ///   Parse an object to Xml file and reutrn the file as bytes array.
+        /// Parse an object to Xml file and reutrn the file as bytes array.
         /// </summary>
         /// <param name="obj">Object who will be write in Xml</param>
         public static Byte[] WriteToXmlByteArray(object obj)
         {
-            try
+            using (MemoryStream writer = new MemoryStream())
             {
-                using (var writer = new MemoryStream())
-                {
-                    var serializer = new XmlSerializer(obj.GetType());
-                    serializer.Serialize(writer, obj);
-                    return writer.ToArray();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                XmlSerializer serializer = new XmlSerializer(obj.GetType());
+                serializer.Serialize(writer, obj);
+                return writer.ToArray();
             }
         }
 
         /// <summary>
-        ///   Check if xml file has a valid structure with Xsd
+        /// Check if xml file has a valid structure with Xsd
         /// </summary>
         /// <param name="content">Xml file content</param>
         /// <param name="filenamlXsd">Xsd path</param>
@@ -60,57 +47,63 @@ namespace Utilities
         /// <returns></returns>
         public static bool HasValidXmlStructure(byte[] content, string filenamlXsd, string nameSpace = "http://consob.it/priips/feedbackfile/v1")
         {
-            try
+            bool result = true;
+
+            XmlSchemaSet schemas = new XmlSchemaSet();
+            schemas.Add(nameSpace, filenamlXsd);
+            XDocument custOrdDoc = XDocument.Load(new MemoryStream(content));
+
+            custOrdDoc.Validate(schemas, (o, e) =>
             {
-                bool result = true;
+                result = false;
+            });
 
-                var schemas = new XmlSchemaSet();
-                schemas.Add(nameSpace, filenamlXsd);
-                var custOrdDoc = XDocument.Load(new MemoryStream(content));
-
-                custOrdDoc.Validate(schemas, (o, e) =>
-                {
-                    // e.Message;
-                    result = false;
-                });
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            return result;
         }
 
         /// <summary>
-        ///   Check if xml file has a valid structure with Xsd
+        /// Check if xml file has a valid structure with Xsd
         /// </summary>
         /// <param name="filenameXml">Xml file path</param>
         /// <param name="filenamlXsd">Xsd path</param>
         /// <param name="nameSpace">Xsd namespace</param>
         /// <returns></returns>
-        public static bool HasValidXmlStructure(string filenameXml, string filenamlXsd, string nameSpace = "http://consob.it/priips/feedbackfile/v1")
+        public static bool HasValidXmlStructure(string filenameXml, string filenamlXsd, string nameSpace = "")
         {
-            try
+            bool result = true;
+
+            XmlSchemaSet schemas = new XmlSchemaSet();
+            schemas.Add(nameSpace, filenamlXsd);
+            XDocument custOrdDoc = XDocument.Load(filenameXml);
+
+            custOrdDoc.Validate(schemas, (o, e) =>
             {
-                bool result = true;
+                result = false;
+            });
 
-                var schemas = new XmlSchemaSet();
-                schemas.Add(nameSpace, filenamlXsd);
-                var custOrdDoc = XDocument.Load(filenameXml);
+            return result;
+        }
 
-                custOrdDoc.Validate(schemas, (o, e) =>
-                {
-                    // result = e.Message;
-                    result = false;
-                });
+        /// <summary>
+        /// Get messages of validation xml structure
+        /// </summary>
+        /// <param name="filenameXml">Xml file path</param>
+        /// <param name="filenamlXsd">Xsd path</param>
+        /// <param name="nameSpace">Xsd namespace</param>
+        /// <returns></returns>
+        public static string GetValidationMessageXml(string filenameXml, string filenamlXsd, string nameSpace = "")
+        {
+            StringBuilder sb = new StringBuilder();
+            XmlSchemaSet schemas = new XmlSchemaSet();
+            schemas.Add(nameSpace, filenamlXsd);
+            XDocument custOrdDoc = XDocument.Load(filenameXml);
 
-                return result;
-            }
-            catch (Exception ex)
+            custOrdDoc.Validate(schemas, (o, e) =>
             {
-                return false;
-            }
+                sb.AppendLine(e.Message);
+            });
+
+            return sb.ToString();
         }
     }
 }
