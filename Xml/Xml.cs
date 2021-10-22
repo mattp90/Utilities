@@ -45,7 +45,7 @@ namespace Utilities
         /// <param name="filenamlXsd">Xsd path</param>
         /// <param name="nameSpace">Xsd namespace</param>
         /// <returns></returns>
-        public static bool HasValidXmlStructure(byte[] content, string filenamlXsd, string nameSpace = "http://consob.it/priips/feedbackfile/v1")
+        public static bool ValidateXmlStructure(byte[] content, string filenamlXsd, string nameSpace = "http://consob.it/priips/feedbackfile/v1")
         {
             bool result = true;
 
@@ -68,7 +68,7 @@ namespace Utilities
         /// <param name="filenamlXsd">Xsd path</param>
         /// <param name="nameSpace">Xsd namespace</param>
         /// <returns></returns>
-        public static bool HasValidXmlStructure(string filenameXml, string filenamlXsd, string nameSpace = "")
+        public static bool ValidateXmlStructure(string filenameXml, string filenamlXsd, string nameSpace = "")
         {
             bool result = true;
 
